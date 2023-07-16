@@ -8,6 +8,11 @@ const webSocketFunctions = (server) => {
     // Websocket Server
     const wss = new WebSocketServer({ server })
 
+    // allow all domains
+    wss.on('headers', (headers, request) => {
+        headers.push('Access-Control-Allow-Origin: *');
+        headers.push('Access-Control-Allow-Credentials: true');
+    });
 
     // I'm maintaining all active connections in this object
     const clients = {};
