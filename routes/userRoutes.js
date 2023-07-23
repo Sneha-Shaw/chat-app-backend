@@ -4,7 +4,8 @@ import {
     registerUser,
     loginUser,
     getUsers,
-    searchUser
+    searchUser,
+    changeProfilePic
 } from '../controllers/userControllers.js'
 import { verifyToken } from '../middleware/verifyToken.js'
 
@@ -14,6 +15,8 @@ router.post('/register', registerUser)
 router.post('/login', loginUser)
 router.get('/all', getUsers)
 router.post('/search', searchUser)
+
+
 router.get('/verifyToken', verifyToken, (req, res) => {
     res.status(200).json({
         success: true,

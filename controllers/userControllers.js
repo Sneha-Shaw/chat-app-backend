@@ -189,3 +189,26 @@ export const searchUser = async (req, res) => {
         })
     }
 }
+
+// change profile pic by saving image Buffer locally and saving image path in database
+export const changeProfilePic = async (req, res) => {
+    try {
+        const { id } = req.params
+        const { image } = req.body
+        console.log(image);
+        const user = await userModel.findByIdAndUpdate(id, { image: `https:${image}` }, { new: true })
+
+        res.status(200).json({
+            success: true,
+            message: 'Profile pic updated successfully',
+            data: user
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+            data: null
+
+        })
+    }
+}

@@ -5,14 +5,17 @@ import helmet from 'helmet'
 import webSocketFunctions from './controllers/webSocketFunctions.js'
 import Router from './routes/index.js'
 import databaseConnection from "./databaseConnection.js"
-
+import bodyParser from "body-parser";
 
 const app = express()
 // set security HTTP headers
 app.use(helmet())
 
 // parse urlencoded request body
-app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: false, limit: "200kb" }));
+app.use(bodyParser.json({ limit: "200kb" }));
+
+app.options("*", cors());
 
 // parse json request body
 app.use(express.json())
@@ -44,6 +47,16 @@ app.use((req, res) => {
         data: null
     })
 })
+
+app.use((error, req, res, next) => {
+    if (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+            data: null,
+        });
+    }
+});
 
 // Database Connection
 databaseConnection()
