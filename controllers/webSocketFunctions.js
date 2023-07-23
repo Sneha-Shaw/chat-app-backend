@@ -6,13 +6,7 @@ import { sendMessage } from "./messageControllers.js"
 const webSocketFunctions = (server) => {
 
     // Websocket Server with cors enabled for all domains
-    const wss = new WebSocketServer({ server, path: '/wss', cors: true });
-
-    // allow all domains
-    wss.on('headers', (headers, request) => {
-        headers.push('Access-Control-Allow-Origin: *');
-        headers.push('Access-Control-Allow-Credentials: true');
-    });
+    const wss = new WebSocketServer({ server, cors: { origin: "*" } });
 
     // I'm maintaining all active connections in this object
     const clients = {};
